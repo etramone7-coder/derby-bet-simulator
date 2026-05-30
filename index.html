@@ -1,237 +1,251 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>日本ダービー2026 買い目シミュレーター</title>
-  <style>
-    body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f172a;color:#e5e7eb;line-height:1.6}
-    header{padding:28px 16px;background:linear-gradient(135deg,#111827,#1e3a8a);border-bottom:1px solid #334155}
-    .wrap{max-width:1180px;margin:0 auto;padding:16px}
-    h1{margin:0 0 8px;font-size:28px}
-    h2{margin-top:32px;padding-left:10px;border-left:5px solid #38bdf8;font-size:22px}
-    .note{color:#cbd5e1;font-size:14px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .card{background:#111827;border:1px solid #334155;border-radius:14px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    .rank{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:#facc15;color:#111827;font-weight:800;margin-right:8px}
-    .horse-name{font-size:18px;font-weight:800;color:#f8fafc}
-    .score-line{font-size:13px;color:#cbd5e1;margin-top:8px}
-    .reason{margin-top:10px;font-size:14px;color:#dbeafe}
-    .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:#111827;border:1px solid #334155;border-radius:14px;padding:16px;margin-top:14px}
-    input[type="number"]{width:180px;padding:12px;border-radius:10px;border:1px solid #475569;background:#020617;color:#f8fafc;font-size:18px}
-    button{padding:12px 18px;border:0;border-radius:10px;background:#38bdf8;color:#082f49;font-weight:800;cursor:pointer}
-    button:hover{background:#7dd3fc}
-    table{width:100%;border-collapse:collapse;margin-top:14px;background:#111827;border-radius:12px;overflow:hidden}
-    th,td{padding:10px;border-bottom:1px solid #334155;text-align:left;font-size:14px}
-    th{background:#1e293b;color:#bfdbfe}
-    tr:hover td{background:#0f172a}
-    .badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700}
-    .buy{background:#22c55e;color:#052e16}
-    .check{background:#facc15;color:#422006}
-    .skip{background:#64748b;color:#f8fafc}
-    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
-    .summary-box{background:#020617;border:1px solid #334155;border-radius:12px;padding:14px}
-    .summary-box strong{display:block;font-size:22px;color:#facc15}
-    .small{font-size:12px;color:#94a3b8}
-    footer{margin-top:40px;padding:24px 16px;color:#94a3b8;border-top:1px solid #334155;font-size:13px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>日本ダービー2026 買い目シミュレーター</title>
+<style>
+body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f172a;color:#e5e7eb;line-height:1.6}
+header{padding:28px 16px;background:linear-gradient(135deg,#111827,#1e3a8a);border-bottom:1px solid #334155}
+.wrap{max-width:1180px;margin:0 auto;padding:16px}
+h1{margin:0 0 8px;font-size:28px}
+h2{margin-top:32px;padding-left:10px;border-left:5px solid #38bdf8;font-size:22px}
+.note{color:#cbd5e1;font-size:14px}
+.grid{display:flex;flex-direction:column;gap:14px}
+.card{background:#111827;border:1px solid #334155;border-radius:14px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.rank{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:#facc15;color:#111827;font-weight:800;margin-right:8px}
+.horse-name{font-size:18px;font-weight:800;color:#f8fafc}
+.score-line{font-size:13px;color:#cbd5e1;margin-top:8px}
+.reason{margin-top:10px;font-size:14px;color:#dbeafe}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:#111827;border:1px solid #334155;border-radius:14px;padding:16px;margin-top:14px}
+input[type="number"]{width:180px;padding:12px;border-radius:10px;border:1px solid #475569;background:#020617;color:#f8fafc;font-size:18px}
+button{padding:12px 18px;border:0;border-radius:10px;background:#38bdf8;color:#082f49;font-weight:800;cursor:pointer}
+button:hover{background:#7dd3fc}
+table{width:100%;border-collapse:collapse;margin-top:14px;background:#111827;border-radius:12px;overflow:hidden}
+th,td{padding:10px;border-bottom:1px solid #334155;text-align:left;font-size:14px}
+th{background:#1e293b;color:#bfdbfe}
+tr:hover td{background:#0f172a}
+.badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.buy{background:#22c55e;color:#052e16}
+.check{background:#facc15;color:#422006}
+.skip{background:#64748b;color:#f8fafc}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+.summary-box{background:#020617;border:1px solid #334155;border-radius:12px;padding:14px}
+.summary-box strong{display:block;font-size:22px;color:#facc15}
+.small{font-size:12px;color:#94a3b8}
+footer{margin-top:40px;padding:24px 16px;color:#94a3b8;border-top:1px solid #334155;font-size:13px}
+@media(max-width:600px){h1{font-size:22px}th,td{font-size:12px;padding:8px}.wrap{padding:12px}}
+</style>
 </head>
 <body>
 <header>
-  <div class="wrap">
-    <h1>日本ダービー2026 買い目シミュレーター</h1>
-    <p class="note">total_score / expected_value / オッズ / 騎手評価をもとに、単勝・複勝・ワイド・三連複の買い目を自動提案します。</p>
-    <p class="note">※これは回収率分析用のシミュレーターです。的中や利益を保証するものではありません。</p>
-  </div>
+<div class="wrap">
+<h1>日本ダービー2026 買い目シミュレーター</h1>
+<p class="note">total_score / expected_value / オッズをもとに、単勝・複勝・ワイド・三連複の買い目を自動提案します。</p>
+<p class="note">※これは回収率分析用です。的中や利益を保証するものではありません。</p>
+</div>
 </header>
 
 <main class="wrap">
-  <section>
-    <h2>単勝おすすめ上位5</h2>
-    <div id="winTop5" class="grid"></div>
-  </section>
+<section>
+<h2>単勝おすすめ上位5</h2>
+<div id="winTop5" class="grid"></div>
+</section>
 
-  <section>
-    <h2>複勝おすすめ上位5</h2>
-    <div id="placeTop5" class="grid"></div>
-  </section>
+<section>
+<h2>複勝おすすめ上位5</h2>
+<div id="placeTop5" class="grid"></div>
+</section>
 
-  <section>
-    <h2>予算入力</h2>
-    <div class="controls">
-      <label for="budget">購入予算：</label>
-      <input id="budget" type="number" value="3000" min="100" step="100" />
-      <button onclick="generateBets()">買い目を作成</button>
-    </div>
-    <p class="note">推奨配分：単勝20％、複勝20％、ワイド35％、三連複25％。100円単位で丸めます。</p>
-  </section>
+<section>
+<h2>予算入力</h2>
+<div class="controls">
+<label for="budget">購入予算：</label>
+<input id="budget" type="number" value="3000" min="100" step="100">
+<button onclick="generateBets()">買い目を作成</button>
+</div>
+<p class="note">推奨配分：単勝20％、複勝20％、ワイド35％、三連複25％。100円単位で丸めます。</p>
+</section>
 
-  <section>
-    <h2>おすすめ買い目</h2>
-    <div id="betSummary" class="summary"></div>
-    <table>
-      <thead>
-        <tr>
-          <th>券種</th>
-          <th>買い目</th>
-          <th>金額</th>
-          <th>狙い</th>
-        </tr>
-      </thead>
-      <tbody id="betTable"></tbody>
-    </table>
-  </section>
+<section>
+<h2>おすすめ買い目</h2>
+<div id="betSummary" class="summary"></div>
+<table>
+<thead>
+<tr><th>券種</th><th>買い目</th><th>金額</th><th>狙い</th></tr>
+</thead>
+<tbody id="betTable"></tbody>
+</table>
+</section>
 
-  <section>
-    <h2>全馬データ</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>馬番</th>
-          <th>馬名</th>
-          <th>人気</th>
-          <th>オッズ</th>
-          <th>total_score</th>
-          <th>expected_value</th>
-          <th>buy_flag</th>
-        </tr>
-      </thead>
-      <tbody id="horseTable"></tbody>
-    </table>
-  </section>
+<section>
+<h2>全馬データ</h2>
+<table>
+<thead>
+<tr><th>馬番</th><th>馬名</th><th>人気</th><th>オッズ</th><th>total_score</th><th>expected_value</th><th>buy_flag</th></tr>
+</thead>
+<tbody id="horseTable"></tbody>
+</table>
+</section>
 </main>
 
 <footer>
-  <div class="wrap">当日の馬体重、馬場状態、オッズ変動を確認して最終判断してください。</div>
+<div class="wrap">当日の馬体重、馬場状態、オッズ変動を確認して最終判断してください。</div>
 </footer>
 
 <script>
 const horses=[
-{no:1,name:"ライヒスアドラー",pop:4,odds:10.9,total:76.8,ev:2.19,show:75,quinella:50,burst:8,sustain:8,training:9,pos:8,jockey:"佐々木大輔",flag:"BUY",reason:"皐月賞3着、調教9点、上がり性能と持続力のバランスが良い。"},
-{no:2,name:"マテンロウゲイル",pop:13,odds:50.9,total:62.9,ev:2.63,show:66.7,quinella:50,burst:7,sustain:8,training:8,pos:6,jockey:"横山和生",flag:"BUY",reason:"人気薄だが血統2400m評価が高く、先行力もある。複勝・ワイドの穴候補。"},
-{no:3,name:"ケントン",pop:17,odds:218,total:42.5,ev:2.69,show:40,quinella:40,burst:4,sustain:6,training:7,pos:9,jockey:"木幡巧也",flag:"BUY",reason:"expected_valueは高いがtotal_scoreが低い。大穴の三連複3着候補まで。"},
-{no:4,name:"アルトラムス",pop:18,odds:236,total:48.3,ev:3.09,show:75,quinella:75,burst:6,sustain:7,training:7,pos:9,jockey:"横山武史",flag:"BUY",reason:"expected_valueは高いが前走大敗が重い。超大穴の押さえ候補。"},
-{no:5,name:"バステール",pop:12,odds:37.3,total:68.9,ev:2.12,show:75,quinella:50,burst:8,sustain:8,training:8,pos:8,jockey:"川田将雅",flag:"BUY",reason:"川田騎乗、血統2400m評価が高い。中穴としてバランスが良い。"},
-{no:6,name:"コンジェスタス",pop:6,odds:12.3,total:56.8,ev:1.79,show:66.7,quinella:66.7,burst:7,sustain:8,training:8,pos:4,jockey:"西村淳也",flag:"CHECK",reason:"京都新聞杯勝ち。先行力は評価できるがtotal_scoreはやや物足りない。"},
-  {no:7,name:"メイショウハチコウ",pop:11,odds:34.3,total:57.6,ev:2.39,show:75,quinella:50,burst:7,sustain:7,training:8,pos:5,jockey:"M.ディー",flag:"BUY",reason:"プリンシパルS勝ち。位置取りは良いが騎手評価が弱め。"},
-{no:8,name:"ショウナンガルフ",pop:15,odds:197.2,total:63.5,ev:3.97,show:75,quinella:50,burst:7,sustain:9,training:7,pos:8,jockey:"浜中俊",flag:"BUY",reason:"expected_value上位。血統2400mと持続力評価が高く、人気薄の妙味が大きい。"},
-{no:9,name:"アウダーシア",pop:9,odds:18.5,total:69.2,ev:2.47,show:75,quinella:75,burst:8,sustain:8,training:8,pos:4,jockey:"D.レーン",flag:"BUY",reason:"先行力、騎手G1評価、血統2400mが高い。ワイドや三連複の相手として安定。"},
-{no:10,name:"ジャスティンビスタ",pop:14,odds:56.3,total:63.7,ev:3.12,show:66.7,quinella:66.7,burst:7,sustain:7,training:7,pos:12,jockey:"坂井瑠星",flag:"BUY",reason:"坂井騎手の東京2400評価が高く、オッズ妙味あり。ただし位置取りが後ろ。"},
-{no:11,name:"リアアイズシリウス",pop:2,odds:4.3,total:84.6,ev:1.67,show:100,quinella:80,burst:8,sustain:9,training:9,pos:2,jockey:"津村明秀",flag:"CHECK",reason:"皐月賞2着、安定感抜群。複勝・軸向き。ただしオッズ妙味は低め。"},
-{no:12,name:"アスクエジンバラ",pop:7,odds:15.1,total:60.8,ev:2.06,show:75,quinella:62.5,burst:8,sustain:8,training:8,pos:5,jockey:"岩田康誠",flag:"BUY",reason:"位置取りと岩田康誠のダービー実績が強み。三連複の相手候補。"},
-{no:13,name:"バントルナイーフ",pop:5,odds:12,total:73.0,ev:2.20,show:75,quinella:50,burst:8,sustain:8,training:8,pos:11,jockey:"C.ルメール",flag:"BUY",reason:"東京重賞勝ち、ルメール騎乗、血統評価も高い。後方脚質だけが課題。"},
-{no:14,name:"ゴーイントゥスカイ",pop:3,odds:7.5,total:85.4,ev:2.14,show:75,quinella:50,burst:9,sustain:8,training:9,pos:8,jockey:"武豊",flag:"BUY",reason:"total_score1位。瞬発力、スロー適性、武豊騎乗が強い。単勝本線候補。"},
-{no:15,name:"フォルテアンジェロ",pop:8,odds:15.6,total:64.0,ev:2.11,show:75,quinella:50,burst:7,sustain:8,training:8,pos:15,jockey:"荻野極",flag:"BUY",reason:"血統2400mは高評価だが、位置取りが後ろすぎる。三連複の押さえまで。"},
-{no:16,name:"グリーンエナジー",pop:10,odds:28,total:61.7,ev:2.41,show:75,quinella:50,burst:7,sustain:8,training:8,pos:10,jockey:"戸崎圭太",flag:"BUY",reason:"戸崎騎手の東京2400評価が高く、28倍なら妙味あり。中穴相手。"},
-{no:17,name:"ロブチェン",pop:1,odds:3.3,total:84.6,ev:1.37,show:100,quinella:75,burst:8,sustain:9,training:10,pos:4,jockey:"松山弘平",flag:"SKIP",reason:"能力は最上位級。皐月賞馬で安定感も高いが、オッズ妙味は低い。"},
-{no:18,name:"エムズビギン",pop:16,odds:203.1,total:67.3,ev:4.18,show:75,quinella:50,burst:6,sustain:9,training:8,pos:10,jockey:"F.ゴンサルベス",flag:"BUY",reason:"expected_value1位。キタサンブラック×Galileoで持続力評価が高い。大穴ヒモ候補。"}
+{no:1,name:"ライヒスアドラー",pop:4,odds:10.9,total:76.8,ev:2.19,show:75,burst:8,sustain:8,training:9,pos:8,flag:"BUY",reason:"皐月賞3着、調教9点、上がり性能と持続力のバランスが良い。"},
+{no:2,name:"マテンロウゲイル",pop:13,odds:50.9,total:62.9,ev:2.63,show:66.7,burst:7,sustain:8,training:8,pos:6,flag:"BUY",reason:"人気薄だが血統2400m評価が高く、先行力もある。複勝・ワイドの穴候補。"},
+{no:3,name:"ケントン",pop:17,odds:218,total:42.5,ev:2.69,show:40,burst:4,sustain:6,training:7,pos:9,flag:"BUY",reason:"expected_valueは高いがtotal_scoreが低い。大穴の三連複3着候補まで。"},
+{no:4,name:"アルトラムス",pop:18,odds:236,total:48.3,ev:3.09,show:75,burst:6,sustain:7,training:7,pos:9,flag:"BUY",reason:"expected_valueは高いが前走大敗が重い。超大穴の押さえ候補。"},
+{no:5,name:"バステール",pop:12,odds:37.3,total:68.9,ev:2.12,show:75,burst:8,sustain:8,training:8,pos:8,flag:"BUY",reason:"川田騎乗、血統2400m評価が高い。中穴としてバランスが良い。"},
+{no:6,name:"コンジェスタス",pop:6,odds:12.3,total:56.8,ev:1.79,show:66.7,burst:7,sustain:8,training:8,pos:4,flag:"CHECK",reason:"京都新聞杯勝ち。先行力は評価できるがtotal_scoreはやや物足りない。"},
+{no:7,name:"メイショウハチコウ",pop:11,odds:34.3,total:57.6,ev:2.39,show:75,burst:7,sustain:7,training:8,pos:5,flag:"BUY",reason:"プリンシパルS勝ち。位置取りは良いが騎手評価が弱め。"},
+{no:8,name:"ショウナンガルフ",pop:15,odds:197.2,total:63.5,ev:3.97,show:75,burst:7,sustain:9,training:7,pos:8,flag:"BUY",reason:"expected_value上位。血統2400mと持続力評価が高く、人気薄の妙味が大きい。"},
+{no:9,name:"アウダーシア",pop:9,odds:18.5,total:69.2,ev:2.47,show:75,burst:8,sustain:8,training:8,pos:4,flag:"BUY",reason:"先行力、騎手G1評価、血統2400mが高い。ワイドや三連複の相手として安定。"},
+{no:10,name:"ジャスティンビスタ",pop:14,odds:56.3,total:63.7,ev:3.12,show:66.7,burst:7,sustain:7,training:7,pos:12,flag:"BUY",reason:"東京2400評価が高く、オッズ妙味あり。ただし位置取りが後ろ。"},
+{no:11,name:"リアアイズシリウス",pop:2,odds:4.3,total:84.6,ev:1.67,show:100,burst:8,sustain:9,training:9,pos:2,flag:"CHECK",reason:"皐月賞2着、安定感抜群。複勝・軸向き。ただしオッズ妙味は低め。"},
+{no:12,name:"アスクエジンバラ",pop:7,odds:15.1,total:60.8,ev:2.06,show:75,burst:8,sustain:8,training:8,pos:5,flag:"BUY",reason:"位置取りとダービー適性が強み。三連複の相手候補。"},
+{no:13,name:"バントルナイーフ",pop:5,odds:12,total:73.0,ev:2.20,show:75,burst:8,sustain:8,training:8,pos:11,flag:"BUY",reason:"東京重賞勝ち、ルメール騎乗、血統評価も高い。後方脚質だけが課題。"},
+{no:14,name:"ゴーイントゥスカイ",pop:3,odds:7.5,total:85.4,ev:2.14,show:75,burst:9,sustain:8,training:9,pos:8,flag:"BUY",reason:"total_score1位。瞬発力、スロー適性、武豊騎乗が強い。単勝本線候補。"},
+{no:15,name:"フォルテアンジェロ",pop:8,odds:15.6,total:64.0,ev:2.11,show:75,burst:7,sustain:8,training:8,pos:15,flag:"BUY",reason:"血統2400mは高評価だが、位置取りが後ろすぎる。三連複の押さえまで。"},
+{no:16,name:"グリーンエナジー",pop:10,odds:28,total:61.7,ev:2.41,show:75,burst:7,sustain:8,training:8,pos:10,flag:"BUY",reason:"東京2400評価が高く、28倍なら妙味あり。中穴相手。"},
+{no:17,name:"ロブチェン",pop:1,odds:3.3,total:84.6,ev:1.37,show:100,burst:8,sustain:9,training:10,pos:4,flag:"SKIP",reason:"能力は最上位級。皐月賞馬で安定感も高いが、オッズ妙味は低い。"},
+{no:18,name:"エムズビギン",pop:16,odds:203.1,total:67.3,ev:4.18,show:75,burst:6,sustain:9,training:8,pos:10,flag:"BUY",reason:"expected_value1位。キタサンブラック×Galileoで持続力評価が高い。大穴ヒモ候補。"}
 ];
 
 function yen(n){return Math.round(n).toLocaleString("ja-JP")+"円";}
 function round100(v){return Math.max(100,Math.round(v/100)*100);}
 
 function winScore(h){
-  return h.total*0.65+h.ev*8+h.burst*1.5+h.training;
+return h.total*0.65+h.ev*8+h.burst*1.5+h.training;
 }
 
 function placeScore(h){
-  const posScore=Math.max(0,10-Math.abs(h.pos-5));
-  return h.total*0.55+h.show*0.18+h.sustain*2+h.training*1.2+posScore;
+const posScore=Math.max(0,10-Math.abs(h.pos-5));
+return h.total*0.55+h.show*0.18+h.sustain*2+h.training*1.2+posScore;
 }
 
 function cardHTML(h,i,type){
-  const s=type==="win"?winScore(h).toFixed(1):placeScore(h).toFixed(1);
-  return `
-    <div class="card">
-      <div><span class="rank">${i+1}</span><span class="horse-name">${h.no}. ${h.name}</span></div>
-      <div class="score-line">人気：${h.pop}番人気 / オッズ：${h.odds} / total：${h.total} / EV：${h.ev}</div>
-      <div class="score-line">${type==="win"?"単勝評価":"複勝評価"}：${s}</div>
-      <div class="reason">${h.reason}</div>
-    </div>
-  `;
+const s=type==="win"?winScore(h).toFixed(1):placeScore(h).toFixed(1);
+return `
+<div class="card">
+<div><span class="rank">${i+1}</span><span class="horse-name">${h.no}. ${h.name}</span></div>
+<div class="score-line">人気：${h.pop}番人気 / オッズ：${h.odds} / total：${h.total} / EV：${h.ev}</div>
+<div class="score-line">${type==="win"?"単勝評価":"複勝評価"}：${s}</div>
+<div class="reason">${h.reason}</div>
+</div>`;
 }
 
 function renderTop(){
-  const win=[...horses].sort((a,b)=>winScore(b)-winScore(a)).slice(0,5);
-  const place=[...horses].sort((a,b)=>placeScore(b)-placeScore(a)).slice(0,5);
-  document.getElementById("winTop5").innerHTML=win.map((h,i)=>cardHTML(h,i,"win")).join("");
-  document.getElementById("placeTop5").innerHTML=place.map((h,i)=>cardHTML(h,i,"place")).join("");
+const win=[...horses].sort((a,b)=>winScore(b)-winScore(a)).slice(0,5);
+const place=[...horses].sort((a,b)=>placeScore(b)-placeScore(a)).slice(0,5);
+document.getElementById("winTop5").innerHTML=win.map((h,i)=>cardHTML(h,i,"win")).join("");
+document.getElementById("placeTop5").innerHTML=place.map((h,i)=>cardHTML(h,i,"place")).join("");
 }
 
 function renderHorseTable(){
-  document.getElementById("horseTable").innerHTML=horses.map(h=>{
-    const cls=h.flag==="BUY"?"buy":h.flag==="CHECK"?"check":"skip";
-    return `
-      <tr>
-        <td>${h.no}</td>
-        <td>${h.name}</td>
-        <td>${h.pop}</td>
-        <td>${h.odds}</td>
-        <td>${h.total}</td>
-        <td>${h.ev}</td>
-        <td><span class="badge ${cls}">${h.flag}</span></td>
-      </tr>
-    `;
-  }).join("");
-}
-  {no:7,name:"メイショウハチコウ",pop:11,odds:34.3,total:57.6,ev:2.39,show:75,quinella:50,burst:7,sustain:7,training:8,pos:5,jockey:"M.ディー",flag:"BUY",reason:"プリンシパルS勝ち。位置取りは良いが騎手評価が弱め。"},
-{no:8,name:"ショウナンガルフ",pop:15,odds:197.2,total:63.5,ev:3.97,show:75,quinella:50,burst:7,sustain:9,training:7,pos:8,jockey:"浜中俊",flag:"BUY",reason:"expected_value上位。血統2400mと持続力評価が高く、人気薄の妙味が大きい。"},
-{no:9,name:"アウダーシア",pop:9,odds:18.5,total:69.2,ev:2.47,show:75,quinella:75,burst:8,sustain:8,training:8,pos:4,jockey:"D.レーン",flag:"BUY",reason:"先行力、騎手G1評価、血統2400mが高い。ワイドや三連複の相手として安定。"},
-{no:10,name:"ジャスティンビスタ",pop:14,odds:56.3,total:63.7,ev:3.12,show:66.7,quinella:66.7,burst:7,sustain:7,training:7,pos:12,jockey:"坂井瑠星",flag:"BUY",reason:"坂井騎手の東京2400評価が高く、オッズ妙味あり。ただし位置取りが後ろ。"},
-{no:11,name:"リアアイズシリウス",pop:2,odds:4.3,total:84.6,ev:1.67,show:100,quinella:80,burst:8,sustain:9,training:9,pos:2,jockey:"津村明秀",flag:"CHECK",reason:"皐月賞2着、安定感抜群。複勝・軸向き。ただしオッズ妙味は低め。"},
-{no:12,name:"アスクエジンバラ",pop:7,odds:15.1,total:60.8,ev:2.06,show:75,quinella:62.5,burst:8,sustain:8,training:8,pos:5,jockey:"岩田康誠",flag:"BUY",reason:"位置取りと岩田康誠のダービー実績が強み。三連複の相手候補。"},
-{no:13,name:"バントルナイーフ",pop:5,odds:12,total:73.0,ev:2.20,show:75,quinella:50,burst:8,sustain:8,training:8,pos:11,jockey:"C.ルメール",flag:"BUY",reason:"東京重賞勝ち、ルメール騎乗、血統評価も高い。後方脚質だけが課題。"},
-{no:14,name:"ゴーイントゥスカイ",pop:3,odds:7.5,total:85.4,ev:2.14,show:75,quinella:50,burst:9,sustain:8,training:9,pos:8,jockey:"武豊",flag:"BUY",reason:"total_score1位。瞬発力、スロー適性、武豊騎乗が強い。単勝本線候補。"},
-{no:15,name:"フォルテアンジェロ",pop:8,odds:15.6,total:64.0,ev:2.11,show:75,quinella:50,burst:7,sustain:8,training:8,pos:15,jockey:"荻野極",flag:"BUY",reason:"血統2400mは高評価だが、位置取りが後ろすぎる。三連複の押さえまで。"},
-{no:16,name:"グリーンエナジー",pop:10,odds:28,total:61.7,ev:2.41,show:75,quinella:50,burst:7,sustain:8,training:8,pos:10,jockey:"戸崎圭太",flag:"BUY",reason:"戸崎騎手の東京2400評価が高く、28倍なら妙味あり。中穴相手。"},
-{no:17,name:"ロブチェン",pop:1,odds:3.3,total:84.6,ev:1.37,show:100,quinella:75,burst:8,sustain:9,training:10,pos:4,jockey:"松山弘平",flag:"SKIP",reason:"能力は最上位級。皐月賞馬で安定感も高いが、オッズ妙味は低い。"},
-{no:18,name:"エムズビギン",pop:16,odds:203.1,total:67.3,ev:4.18,show:75,quinella:50,burst:6,sustain:9,training:8,pos:10,jockey:"F.ゴンサルベス",flag:"BUY",reason:"expected_value1位。キタサンブラック×Galileoで持続力評価が高い。大穴ヒモ候補。"}
-];
-
-function yen(n){return Math.round(n).toLocaleString("ja-JP")+"円";}
-function round100(v){return Math.max(100,Math.round(v/100)*100);}
-
-function winScore(h){
-  return h.total*0.65+h.ev*8+h.burst*1.5+h.training;
+document.getElementById("horseTable").innerHTML=horses.map(h=>{
+const cls=h.flag==="BUY"?"buy":h.flag==="CHECK"?"check":"skip";
+return `<tr>
+<td>${h.no}</td>
+<td>${h.name}</td>
+<td>${h.pop}</td>
+<td>${h.odds}</td>
+<td>${h.total}</td>
+<td>${h.ev}</td>
+<td><span class="badge ${cls}">${h.flag}</span></td>
+</tr>`;
+}).join("");
 }
 
-function placeScore(h){
-  const posScore=Math.max(0,10-Math.abs(h.pos-5));
-  return h.total*0.55+h.show*0.18+h.sustain*2+h.training*1.2+posScore;
+function generateBets(){
+const budgetInput=document.getElementById("budget");
+let budget=Number(budgetInput.value);
+if(!budget||budget<100){alert("100円以上の金額を入力してください。");return;}
+budget=Math.floor(budget/100)*100;
+budgetInput.value=budget;
+
+const winRank=[...horses].sort((a,b)=>winScore(b)-winScore(a));
+const placeRank=[...horses].sort((a,b)=>placeScore(b)-placeScore(a));
+const ability=[...horses].sort((a,b)=>b.total-a.total);
+const ev=[...horses].sort((a,b)=>b.ev-a.ev);
+
+const winBudget=round100(budget*0.20);
+const placeBudget=round100(budget*0.20);
+const wideBudget=round100(budget*0.35);
+let triBudget=budget-winBudget-placeBudget-wideBudget;
+triBudget=Math.max(0,Math.floor(triBudget/100)*100);
+
+const bets=[];
+
+const winHorse=winRank[0];
+bets.push({type:"単勝",target:`${winHorse.no}. ${winHorse.name}`,amount:winBudget,aim:"単勝評価1位"});
+
+const placeTargets=placeRank.slice(0,2);
+const placeEach=round100(placeBudget/placeTargets.length);
+placeTargets.forEach(h=>{
+bets.push({type:"複勝",target:`${h.no}. ${h.name}`,amount:placeEach,aim:"安定感・複勝率・位置取り重視"});
+});
+
+const core=ability.slice(0,3);
+const holes=ev.filter(h=>!core.includes(h)).slice(0,4);
+
+const widePairs=[
+[core[0],holes[0]],
+[core[0],holes[1]],
+[core[1],holes[0]],
+[core[2],holes[0]]
+].filter(p=>p[0]&&p[1]);
+
+const wideEach=round100(wideBudget/widePairs.length);
+widePairs.forEach(([a,b])=>{
+bets.push({type:"ワイド",target:`${a.no}-${b.no} ${a.name}－${b.name}`,amount:wideEach,aim:"能力上位×期待値穴馬"});
+});
+
+const tri=[
+[core[0],core[1],holes[0]],
+[core[0],core[2],holes[0]],
+[core[0],core[1],holes[1]],
+[core[1],core[2],holes[0]]
+].filter(c=>c[0]&&c[1]&&c[2]);
+
+if(triBudget>=100&&tri.length){
+const each=round100(triBudget/tri.length);
+tri.forEach(([a,b,c])=>{
+bets.push({type:"三連複",target:`${a.no}-${b.no}-${c.no} ${a.name}－${b.name}－${c.name}`,amount:each,aim:"能力上位2頭＋期待値穴馬"});
+});
 }
 
-function cardHTML(h,i,type){
-  const s=type==="win"?winScore(h).toFixed(1):placeScore(h).toFixed(1);
-  return `
-    <div class="card">
-      <div><span class="rank">${i+1}</span><span class="horse-name">${h.no}. ${h.name}</span></div>
-      <div class="score-line">人気：${h.pop}番人気 / オッズ：${h.odds} / total：${h.total} / EV：${h.ev}</div>
-      <div class="score-line">${type==="win"?"単勝評価":"複勝評価"}：${s}</div>
-      <div class="reason">${h.reason}</div>
-    </div>
-  `;
+renderBets(bets);
 }
 
-function renderTop(){
-  const win=[...horses].sort((a,b)=>winScore(b)-winScore(a)).slice(0,5);
-  const place=[...horses].sort((a,b)=>placeScore(b)-placeScore(a)).slice(0,5);
-  document.getElementById("winTop5").innerHTML=win.map((h,i)=>cardHTML(h,i,"win")).join("");
-  document.getElementById("placeTop5").innerHTML=place.map((h,i)=>cardHTML(h,i,"place")).join("");
+function renderBets(bets){
+let total=0;
+document.getElementById("betTable").innerHTML=bets.map(b=>{
+total+=b.amount;
+return `<tr>
+<td>${b.type}</td>
+<td>${b.target}</td>
+<td>${yen(b.amount)}</td>
+<td>${b.aim}</td>
+</tr>`;
+}).join("");
+
+document.getElementById("betSummary").innerHTML=`
+<div class="summary-box"><span>購入額合計</span><strong>${yen(total)}</strong></div>
+<div class="summary-box"><span>買い目数</span><strong>${bets.length}点</strong></div>
+<div class="summary-box"><span>推奨戦略</span><strong>回収率重視</strong><div class="small">能力上位馬と期待値穴馬を組み合わせて構成</div></div>`;
 }
 
-function renderHorseTable(){
-  document.getElementById("horseTable").innerHTML=horses.map(h=>{
-    const cls=h.flag==="BUY"?"buy":h.flag==="CHECK"?"check":"skip";
-    return `
-      <tr>
-        <td>${h.no}</td>
-        <td>${h.name}</td>
-        <td>${h.pop}</td>
-        <td>${h.odds}</td>
-        <td>${h.total}</td>
-        <td>${h.ev}</td>
-        <td><span class="badge ${cls}">${h.flag}</span></td>
-      </tr>
-    `;
-  }).join("");
+function init(){
+renderTop();
+renderHorseTable();
+generateBets();
 }
+
+init();
+</script>
+</body>
+</html>
