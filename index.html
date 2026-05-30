@@ -10,6 +10,8 @@ body{
   font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   color:#e5e7eb;
   line-height:1.6;
+  font-size:24px;
+}
 
   background-image:url("bg.jpg");
   background-size:cover;
@@ -153,7 +155,9 @@ const s=type==="win"?winScore(h).toFixed(1):placeScore(h).toFixed(1);
 return `
 <div class="card">
 <div><span class="rank">${i+1}</span><span class="horse-name">${h.no}. ${h.name}</span></div>
-<div class="score-line">人気：${h.pop}番人気 / オッズ：${h.odds} / total：${h.total} / EV：${h.ev}</div>
+<div class="score-line">
+人気：${h.pop}番人気 / total：${h.total} / EV：${h.ev}
+</div>
 <div class="score-line">${type==="win"?"単勝評価":"複勝評価"}：${s}</div>
 <div class="reason">${h.reason}</div>
 </div>`;
